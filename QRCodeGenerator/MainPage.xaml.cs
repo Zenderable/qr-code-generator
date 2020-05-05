@@ -43,5 +43,10 @@ namespace QRCodeGenerator
         private void About_Click(object sender, RoutedEventArgs e)
         {
         }
+
+        private void ListBoxFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selected = lbFormat.SelectedValue;
+        }
     }
 }
