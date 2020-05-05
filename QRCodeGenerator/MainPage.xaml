@@ -14,9 +14,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="1" IsOpen="True">
-            <AppBarButton Label="Generate" Icon="Add"></AppBarButton>
-            <AppBarButton Label="Edit" Icon="Edit"></AppBarButton>
-            <AppBarButton Label="About" Icon="Home"></AppBarButton>
+            <AppBarButton Label="Generate" Icon="Add" Click="Generate_Click"></AppBarButton>
+            <AppBarButton Label="Edit" Icon="Edit" Click="Edit_Click"></AppBarButton>
+            <AppBarButton Label="About" Icon="Home" Click="About_Click"></AppBarButton>
         </CommandBar>
     </Grid>
     

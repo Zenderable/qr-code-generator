@@ -26,5 +26,20 @@ namespace QRCodeGenerator
         {
             this.InitializeComponent();
         }
+
+        private void Generate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
