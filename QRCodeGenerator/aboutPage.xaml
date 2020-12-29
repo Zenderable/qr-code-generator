@@ -1,0 +1,29 @@
+﻿<Page
+    x:Class="QRCodeGenerator.aboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:QRCodeGenerator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Height="192" Width="922">
+            <Run Text="Hello, we are a group of 3 students of Uniwersytet of Kazimierz Wielki." FontSize="25" FontStyle="Italic"/>
+            <LineBreak/>
+            <Run Text="At the time of creating this app we are at the 3rd year of our course" FontSize="25" FontStyle="Italic"/>
+            <LineBreak/>
+            <Run Text="This application serves the purpose of creating a QR code out of text provided by user" FontSize="25" FontStyle="Italic"/>
+            <LineBreak/>
+            <Run Text="The link to github repository: https://github.com/Zenderable/qr-code-generator" FontSize="25" FontStyle="Italic" />
+            <LineBreak/>
+            <Run Text="Api we used for creating QR codes: GoQR http://goqr.me/api/ " FontSize="25" FontStyle="Italic"/>
+        </TextBlock>
+
+        <CommandBar IsOpen="True" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <AppBarButton Label="Back" Icon="Back" Click="AppBarButton_Click"></AppBarButton>
+
+        </CommandBar>
+    </Grid>
+</Page>
