@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="QRCodeGenerator.aboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:QRCodeGenerator"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid >
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="231"/>
+            <RowDefinition Height="469"/>
+            <RowDefinition Height="231"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+        <StackPanel  Grid.Row="0">
+            <TextBlock Text="About US" FontSize="40"></TextBlock>
+            <TextBlock Text="We are group of 3 students from Kazimerz Wielki University." FontSize="15"/>
+            <TextBlock Text="At the time of creating this app we are at the 3rd year of computer science course" FontSize="15"/>
+            <TextBlock Text="This application serves the purpose of creating QR code from data provided by user" FontSize="15"/>
+        </StackPanel>
+
+        <StackPanel  Grid.Row="1">
+            <TextBlock Text="Links" FontSize="40"/>
+            <TextBlock Text="Github repository:https://github.com/Zenderable/qr-code-generator " FontSize="15"/>
+            <TextBlock Text="API we used: http://goqr.me/api/" FontSize="15"/>
+        </StackPanel>
+
+        <StackPanel  Grid.Row="2">
+            <TextBlock Text="MIT LICENSE" FontSize="25"></TextBlock>
+            <TextBlock Text="COPYRIGHT (C) 2020" FontSize="25"/>
+            <TextBlock Text="Adam Pszczoła" FontSize="20"/>
+            <TextBlock Text="Michał Siuda" FontSize="20"/>
+            <TextBlock Text="Karol Stumski" FontSize="20"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3">
+            <CommandBar IsOpen="True" Grid.Row="3"  VerticalAlignment="Center">
+                <AppBarButton Label="Back" Icon="Back" Click="AppBarButton_Click"/>
+            </CommandBar>
+        </StackPanel>
+       
+
+    </Grid>
+</Page>

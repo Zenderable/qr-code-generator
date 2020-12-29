@@ -42,6 +42,7 @@ namespace QRCodeGenerator
 
         private void About_Click(object sender, RoutedEventArgs e)
         {
+            Frame.Navigate(typeof(aboutPage));
         }
 
         private void ListBoxFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
