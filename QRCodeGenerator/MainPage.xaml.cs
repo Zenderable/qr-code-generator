@@ -35,16 +35,15 @@ namespace QRCodeGenerator
         public MainPage()
         {
             this.InitializeComponent();
-           
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void About_Click(object sender, RoutedEventArgs e)
         {
+             Frame.Navigate(typeof(aboutPage));
         }
 
         private void ListBoxFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -71,8 +70,7 @@ namespace QRCodeGenerator
 
         private void cpColorPicked_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
-            color = cpColorPicked.Color.ToString().Remove(0, 3);
-            
+            color = cpColorPicked.Color.ToString().Remove(0, 3);  
         }
 
         private void tbSetSize_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
