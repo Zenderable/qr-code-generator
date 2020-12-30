@@ -17,6 +17,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.Storage;
+using Windows.System;
+using Windows.Networking.BackgroundTransfer;
+using System.Net.Http;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -90,20 +93,21 @@ namespace QRCodeGenerator
             
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-                       
-            //string localfolder = ApplicationData.Current.LocalFolder.Path;
-            //var array = localfolder.Split('\\');
-            //var username = array[2];
-            //var path = tbQRTitle.Text + "." + selected;
-            WebClient webClient = new WebClient();
-            var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\asd.png"; 
+            var myFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+            myFilter.AllowUI = false;
+            Windows.Web.Http.HttpClient client = new Windows.Web.Http.HttpClient(myFilter);
+            Windows.Web.Http.HttpResponseMessage result = await client.GetAsync(new Uri(url));
 
-
-            //tu wyrzuca zawsze błąd odnośnie braku uprawnień do zapisywania, próbowałem odpalac jako admin, sprawdzałem różne miejsca zapisu i dupa, chyba znaleźć inny sposób na zapis
-            webClient.DownloadFile(url, path);
-            
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"title.png", CreationCollisionOption.GenerateUniqueName);
+            Console.WriteLine(file);
+            using (var filestream = await file.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                await result.Content.WriteToStreamAsync(filestream);
+                await filestream.FlushAsync();
+                await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+            }
         }
     }
 }
