@@ -116,8 +116,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="aboutPage.xaml.cs">
-      <DependentUpon>aboutPage.xaml</DependentUpon>
+    <Compile Include="AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -147,7 +147,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="aboutPage.xaml">
+    <Page Include="AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

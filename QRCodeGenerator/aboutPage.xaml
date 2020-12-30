@@ -11,15 +11,15 @@
     <Grid >
         <Grid.RowDefinitions>
 
-            <RowDefinition Height="231"/>
-            <RowDefinition Height="469"/>
-            <RowDefinition Height="231"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="233*"/>
+            <RowDefinition Height="233*"/>
+            <RowDefinition Height="233*"/>
+            <RowDefinition Height="Auto"/>
 
         </Grid.RowDefinitions>
 
         <StackPanel  Grid.Row="0">
-            <TextBlock Text="About US" FontSize="40"></TextBlock>
+            <TextBlock Text="About us" FontSize="40"></TextBlock>
             <TextBlock Text="We are group of 3 students from Kazimerz Wielki University." FontSize="15"/>
             <TextBlock Text="At the time of creating this app we are at the 3rd year of computer science course" FontSize="15"/>
             <TextBlock Text="This application serves the purpose of creating QR code from data provided by user" FontSize="15"/>
@@ -42,7 +42,7 @@
         <StackPanel Grid.Row="3">
             <CommandBar IsOpen="True" Grid.Row="3"  VerticalAlignment="Center">
                 <AppBarButton Label="Back" Icon="Back" Click="AppBarButton_Click"/>
-            </CommandBar>
+        </CommandBar>
         </StackPanel>
        
 
