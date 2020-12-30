@@ -54,7 +54,7 @@ namespace QRCodeGenerator
 
         private void ListBoxFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-             selected = lbFormat.SelectedValue.ToString();
+             selected = ((ComboBoxItem)lbFormat.SelectedItem).Content.ToString();
         }
 
         private void btnSetSize_Click(object sender, RoutedEventArgs e)
