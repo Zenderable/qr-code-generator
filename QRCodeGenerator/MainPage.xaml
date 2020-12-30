@@ -55,5 +55,4 @@
             <AppBarButton Label="About" Icon="Home" Click="About_Click"></AppBarButton>
         </CommandBar>
     </Grid>
-
 </Page>
