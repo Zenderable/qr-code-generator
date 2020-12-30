@@ -31,16 +31,11 @@ namespace QRCodeGenerator
     public sealed partial class MainPage : Page
     {
         int size = 500;
-        string selected = "png", color, url;
+        string selected = "png", color = "000000", url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Example";
         public MainPage()
         {
             this.InitializeComponent();
            
-        }
-
-        private void Generate_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
@@ -89,20 +84,23 @@ namespace QRCodeGenerator
         {
             var content = WebUtility.UrlEncode(tbQRData.Text);
             if (content == "")
-                content = "Example Text";
-            url = "http://api.qrserver.com/v1/create-qr-code/?data=" + content + "&size=" + size + "x" + size + "&color=" + color + "&format=" + selected;
+                content = "Example";
+            url = "http://api.qrserver.com/v1/create-qr-code/?data=" + content + "&size=" + size + "x" + size + "&color=" + color;
             imgGenerated.Source = new BitmapImage(new Uri(url));
-            
+            url += $"&format={selected}";
         }
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            var title = tbQRTitle.Text;
+            if(title == "")
+                title = "Title";
             var myFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
             myFilter.AllowUI = false;
             Windows.Web.Http.HttpClient client = new Windows.Web.Http.HttpClient(myFilter);
             Windows.Web.Http.HttpResponseMessage result = await client.GetAsync(new Uri(url));
 
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"title.png", CreationCollisionOption.GenerateUniqueName);
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"{title}.{selected}", CreationCollisionOption.GenerateUniqueName);
             Console.WriteLine(file);
             using (var filestream = await file.OpenAsync(FileAccessMode.ReadWrite))
             {

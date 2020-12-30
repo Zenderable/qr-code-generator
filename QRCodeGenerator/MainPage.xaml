@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="20,20,20,0" Grid.RowSpan="2">
             <TextBox Name="tbQRTitle" Height="70" Width="700" TextAlignment="Justify" Header="Title" Margin="0,0,0,20" PlaceholderText="Title"/>
-            <TextBox Name="tbQRData" Height="200" Width="700" TextAlignment="Justify" Header="Enter a full URL or content" PlaceholderText="Example text"/>
+            <TextBox Name="tbQRData" Height="200" Width="700" TextAlignment="Justify" Header="Enter a full URL or content" PlaceholderText="Example"/>
             <Image Name="imgGenerated" Source="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Example" Height="250" Width="250" Margin="0,40,0,40"></Image>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="btnGenerate" Content="Generate" HorizontalContentAlignment="Center" Click="btnGenerate_Click"/>
@@ -50,7 +50,6 @@
             <ColorPicker x:Name="cpColorPicked" ColorChanged="cpColorPicked_ColorChanged"></ColorPicker>
         </StackPanel>
         <CommandBar Grid.Row="2" IsOpen="True" Grid.ColumnSpan="2" VerticalAlignment="Center">
-            <AppBarButton Label="Generate" Icon="Add" Click="Generate_Click"></AppBarButton>
             <AppBarButton Label="Edit" Icon="Edit" Click="Edit_Click"></AppBarButton>
             <AppBarButton Label="About" Icon="Home" Click="About_Click"></AppBarButton>
         </CommandBar>
