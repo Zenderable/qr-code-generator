@@ -39,6 +39,7 @@ namespace QRCodeGenerator
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+            Frame.Navigate(typeof(EditPage));
         }
 
         private void About_Click(object sender, RoutedEventArgs e)
