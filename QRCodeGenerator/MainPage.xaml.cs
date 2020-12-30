@@ -88,6 +88,8 @@ namespace QRCodeGenerator
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
             var content = WebUtility.UrlEncode(tbQRData.Text);
+            if (content == "")
+                content = "Example Text";
             url = "http://api.qrserver.com/v1/create-qr-code/?data=" + content + "&size=" + size + "x" + size + "&color=" + color + "&format=" + selected;
             imgGenerated.Source = new BitmapImage(new Uri(url));
             
