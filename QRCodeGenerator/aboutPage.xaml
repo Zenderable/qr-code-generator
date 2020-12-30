@@ -42,7 +42,7 @@
         <StackPanel Grid.Row="3">
             <CommandBar IsOpen="True" Grid.Row="3"  VerticalAlignment="Center">
                 <AppBarButton Label="Back" Icon="Back" Click="AppBarButton_Click"/>
-            </CommandBar>
+        </CommandBar>
         </StackPanel>
        
 
