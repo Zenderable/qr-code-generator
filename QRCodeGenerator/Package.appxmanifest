@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="5f9e437e-921e-4b33-8dc3-41c52a0e67d0"
-    Publisher="CN=Zenderable"
-    Version="1.0.0.0" />
+    Name="44601Zenderable.QRGeneratorPremium"
+    Publisher="CN=A9B83DD3-412C-4085-8893-D83ECC01F587"
+    Version="1.0.6.0" />
 
-  <mp:PhoneIdentity PhoneProductId="5f9e437e-921e-4b33-8dc3-41c52a0e67d0" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="84f5926b-9437-4cdb-b189-27cf058281dd" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>QRCodeGenerator</DisplayName>
+    <DisplayName>QR Generator Premium</DisplayName>
     <PublisherDisplayName>Zenderable</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -32,13 +32,17 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="QRCodeGenerator.App">
       <uap:VisualElements
-        DisplayName="QRCodeGenerator"
+        DisplayName="QR Generator Premium"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="QRCodeGenerator"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png">
+        </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
+        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badgeAndTileText"/>
       </uap:VisualElements>
     </Application>
   </Applications>
