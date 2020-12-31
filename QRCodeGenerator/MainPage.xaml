@@ -10,8 +10,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="161*"/>
-            <RowDefinition Height="519*"/>
+            <RowDefinition Height="231*"/>
+            <RowDefinition Height="469*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -19,40 +19,39 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="20,20,20,0" Grid.RowSpan="2">
-            <TextBox Name="tbQRData" Height="200" Width="700" TextAlignment="Justify"/>
-            <Image Source="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Example" Height="300" Width="300" Margin="0,40,0,40"></Image>
+            <TextBox Name="tbQRTitle" Height="70" Width="700" TextAlignment="Justify" Header="Title" Margin="0,0,0,20" PlaceholderText="Title"/>
+            <TextBox Name="tbQRData" Height="200" Width="700" TextAlignment="Justify" Header="Enter a full URL or content" PlaceholderText="Example"/>
+            <Image Name="imgGenerated" Source="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Example" Height="250" Width="250" Margin="0,40,0,40"></Image>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Name="btnGenerate" Content="Generate" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
-                <Button Name="btnSave" Content="Save" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
+                <Button x:Name="btnGenerate" Content="Generate" HorizontalContentAlignment="Center" Click="btnGenerate_Click"/>
+                <Button x:Name="btnSave" Content="Save" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Click="btnSave_Click"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,11,0,0" Grid.RowSpan="2">
+        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,44,0,0" Grid.RowSpan="2">
             <StackPanel Orientation="Horizontal">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="Select format" Margin="0,10,10,10"/>
                     <TextBlock Text="Enter Size" Margin="0,10,10,10"/>
                 </StackPanel>
                 <StackPanel>
-                    <ComboBox SelectionChanged="ListBoxFormat_SelectionChanged" Name="lbFormat" Height="35" Width="75">
-                        <TextBlock Text="png"/>
-                        <TextBlock Text="gif"/>
-                        <TextBlock Text="jpeg"/>
-                        <TextBlock Text="jpg"/>
-                        <TextBlock Text="svg"/>
-                        <TextBlock Text="eps"/>
+                    <ComboBox SelectionChanged="ListBoxFormat_SelectionChanged" Name="lbFormat" Height="35" Width="75" SelectedIndex="0">
+                        <ComboBoxItem Content="png"/>
+                        <ComboBoxItem Content="gif"/>
+                        <ComboBoxItem Content="jpeg"/>
+                        <ComboBoxItem Content="jpg"/>
+                        <ComboBoxItem Content="svg"/>
+                        <ComboBoxItem Content="eps"/>
                     </ComboBox>
-                    <TextBox Name="tbSetSize" PlaceholderText="500" Height="35" Width="75" TextAlignment="Justify" Margin="0,10,0,0"/>
+                    <TextBox Name="tbSetSize" PlaceholderText="500" Height="35" Width="75" TextAlignment="Justify" Margin="0,10,0,0" BeforeTextChanging="tbSetSize_BeforeTextChanging" />
                 </StackPanel>
             </StackPanel>
             <TextBlock Name="tbSizeBracket" Text="Enter value from 100 to 1000" FontSize="10" Margin="0,10,20,0"/>
-            <Button Name="btnSetSize" Content="Set Size" Margin="0,20,0,10"/>
-            <ColorPicker x:Name="cpColorPicked"></ColorPicker>
+            <Button Name="btnSetSize" Content="Set Size" Margin="0,20,0,10" Click="btnSetSize_Click"/>
+            <ColorPicker x:Name="cpColorPicked" ColorChanged="cpColorPicked_ColorChanged"></ColorPicker>
         </StackPanel>
         <CommandBar Grid.Row="2" IsOpen="True" Grid.ColumnSpan="2" VerticalAlignment="Center">
-            <AppBarButton Label="Generate" Icon="Add" Click="Generate_Click"></AppBarButton>
             <AppBarButton Label="Edit" Icon="Edit" Click="Edit_Click"></AppBarButton>
             <AppBarButton Label="About" Icon="Home" Click="About_Click"></AppBarButton>
         </CommandBar>
     </Grid>
-
 </Page>
