@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Navigation;
 using DataAccessLibrary;
 using Windows.Storage;
 using Microsoft.Data.Sqlite;
+using System.Diagnostics;
+using Windows.UI.Xaml.Media.Imaging;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,27 +26,30 @@ namespace QRCodeGenerator
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class EditPage : Page
+    /// 
+    public class imageClaz
     {
-        public EditPage()
-        {
-            this.InitializeComponent();
-            var codes = new List<Code>(); 
-            codes = GetData();
-        }
+        public BitmapImage ImgQR { get; set; }
+    }
 
-        private void Back_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MainPage));
-        }
+    public class ExampleItem
+    {
+        public string Title { get; set; }
+        public string Url { get; set; }
+    }
+
+    public class ExampleViewModel
+    {
+        private ObservableCollection<ExampleItem> exampleItems = new ObservableCollection<ExampleItem>();
+        public ObservableCollection<ExampleItem> ExampleItems {get { return this.exampleItems; } }
+
         public class Code
         {
             public string Title { get; set; }
             public string Url { get; set; }
-
         }
 
-        public static List<Code> GetData()
+        List<Code> getData()
         {
             var entries = new List<Code>();
             string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "sqliteData.db");
@@ -60,7 +66,8 @@ namespace QRCodeGenerator
                 while (query.Read())
                 {
 
-                    entries.Add(new Code {
+                    entries.Add(new Code
+                    {
                         Title = query.GetString(0),
                         Url = query.GetString(1)
                     });
@@ -69,9 +76,72 @@ namespace QRCodeGenerator
                 db.Close();
             }
 
-
             return entries;
         }
-       
+
+        public void Create_QR_Gallery()
+        {
+            List<Code> entries = getData();
+            Debug.WriteLine(entries[4].Title);
+            for (int i = 1; i < 150000; i++)
+            {
+               
+                this.exampleItems.Add(new ExampleItem()
+                {
+                    Title = entries[i].Title,
+                    Url = entries[i].Url,
+                });
+            }
+        }
+    }
+    public sealed partial class EditPage : Page
+    {
+        public EditPage()
+        {
+            this.InitializeComponent();
+            this.ViewModel = new ExampleViewModel();
+        }
+
+        public ExampleViewModel ViewModel { get; set; }
+
+        private void GridView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (args.Phase != 0)
+            {
+                throw new System.Exception("We should be in phase 0, but we are not.");
+            }
+
+            // It's phase 0, so this item's title will already be bound and displayed.
+
+            args.RegisterUpdateCallback(this.ShowUrl);
+
+            args.Handled = true;
+        }
+
+        private void ShowUrl(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (args.Phase != 1)
+            {
+                throw new System.Exception("We should be in phase 1, but we are not.");
+            }
+
+            // It's phase 1, so show this item's subtitle.
+            var templateRoot = args.ItemContainer.ContentTemplateRoot as StackPanel;
+            var image = templateRoot.Children[1] as Image;
+            string strImgPath = (args.Item as ExampleItem).Url;
+            
+            imageClaz obj = new imageClaz
+            {
+                ImgQR = new BitmapImage(new Uri(strImgPath, UriKind.Absolute))
+            };
+            
+            image.Source = obj.ImgQR;
+
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
+        }
     }
 }

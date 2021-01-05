@@ -2,7 +2,7 @@
     x:Class="QRCodeGenerator.EditPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:QRCodeGenerator"
+    xmlns:qrCodeGenerator="using:QRCodeGenerator"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -15,9 +15,19 @@
         </Grid.RowDefinitions>
         <GridView Name="gridGallery" Grid.Row="0" HorizontalAlignment="Center">
             <StackPanel>
-                <Image Name="imgGenerated" Source="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Example" Height="250" Width="250" Margin="20,40,20,20"></Image>
-                <TextBlock Text="Title" FontSize="26" TextAlignment="Center"  />
+                <Image Name="imgGenerated" Height="250" Width="250" Margin="20,40,20,20"></Image>
+                <TextBlock Name="tbTitle" Text="Title" FontSize="26" TextAlignment="Center"  />
             </StackPanel>
+        </GridView>
+        <GridView ItemsSource="{x:Bind ViewModel.ExampleItems}" ContainerContentChanging="GridView_ContainerContentChanging">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="qrCodeGenerator:ExampleItem">
+                    <StackPanel Height="100" Width="100" Background="OrangeRed">
+                        <TextBlock Text="{x:Bind Title}"/>
+                        <Image Source="{x:Bind Url}" x:Phase="1"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
         </GridView>
         <CommandBar Grid.Row="1" IsOpen="True">
             <AppBarButton Label="Back" Icon="Back" Click="Back_Click"></AppBarButton>
