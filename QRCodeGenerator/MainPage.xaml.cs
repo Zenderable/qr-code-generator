@@ -20,6 +20,13 @@ using Windows.Storage;
 using Windows.System;
 using Windows.Networking.BackgroundTransfer;
 using System.Net.Http;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using System.Xml;
+using System.Xml.Linq;
+using System.Data.Common;
+using DataAccessLibrary;
+using Microsoft.Data.Sqlite;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -32,11 +39,13 @@ namespace QRCodeGenerator
     {
         int size = 500;
         string selected = "png", color = "000000", url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Example";
+        
         public MainPage()
         {
             this.InitializeComponent();
+            
         }
-
+      
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(EditPage));
@@ -107,6 +116,32 @@ namespace QRCodeGenerator
                 await filestream.FlushAsync();
                 await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
             }
+
+            AddData(title, url);
+      
+
+        }
+        public static void AddData(string Title, string Url)
+        {
+            string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "sqliteData.db");
+            using (SqliteConnection db =
+            new SqliteConnection($"Filename={dbpath}"))
+            {
+                db.Open();
+
+                SqliteCommand insertCommand = new SqliteCommand();
+                insertCommand.Connection = db;
+
+                
+                insertCommand.CommandText = "INSERT INTO MyTable VALUES (NULL, @Entry1, @Entry2);";
+                insertCommand.Parameters.AddWithValue("@Entry1",Title);
+                insertCommand.Parameters.AddWithValue("@Entry2", Url);
+
+                insertCommand.ExecuteReader();
+
+                db.Close();
+            }
+
         }
     }
 }

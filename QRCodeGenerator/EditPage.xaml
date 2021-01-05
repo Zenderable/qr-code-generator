@@ -13,7 +13,13 @@
             <RowDefinition Height="700*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <CommandBar Grid.Row="2" IsOpen="True">
+        <GridView Name="gridGallery" Grid.Row="0" HorizontalAlignment="Center">
+            <StackPanel>
+                <Image Name="imgGenerated" Source="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Example" Height="250" Width="250" Margin="20,40,20,20"></Image>
+                <TextBlock Text="Title" FontSize="26" TextAlignment="Center"  />
+            </StackPanel>
+        </GridView>
+        <CommandBar Grid.Row="1" IsOpen="True">
             <AppBarButton Label="Back" Icon="Back" Click="Back_Click"></AppBarButton>
         </CommandBar>
     </Grid>
