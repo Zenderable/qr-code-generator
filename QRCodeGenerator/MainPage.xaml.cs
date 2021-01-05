@@ -43,7 +43,6 @@ namespace QRCodeGenerator
         public MainPage()
         {
             this.InitializeComponent();
-            
         }
       
         private void Edit_Click(object sender, RoutedEventArgs e)
@@ -80,7 +79,7 @@ namespace QRCodeGenerator
 
         private void cpColorPicked_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
-            color = cpColorPicked.Color.ToString().Remove(0, 3);  
+            color = cpColorPicked.Color.ToString().Remove(0, 3);
         }
 
         private void tbSetSize_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
@@ -133,7 +132,7 @@ namespace QRCodeGenerator
                 insertCommand.Connection = db;
 
                 
-                insertCommand.CommandText = "INSERT INTO MyTable VALUES (NULL, @Entry1, @Entry2);";
+                insertCommand.CommandText = "INSERT INTO QRCodes VALUES (NULL, @Entry1, @Entry2);";
                 insertCommand.Parameters.AddWithValue("@Entry1",Title);
                 insertCommand.Parameters.AddWithValue("@Entry2", Url);
 
