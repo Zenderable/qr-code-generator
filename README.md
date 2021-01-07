@@ -21,6 +21,13 @@
 - 📱 **Enjoy the app!**
 
 ---
+## Features
+
+- save QR codes to local machine 🥳
+- set size, format and color of your QR code 🤠
+- browse the gallery of created QR codes and download them 👌
+---
+
 
 ## Screenshots
 
