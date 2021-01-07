@@ -9,7 +9,7 @@
   <Identity
     Name="44601Zenderable.QRGeneratorPremium"
     Publisher="CN=A9B83DD3-412C-4085-8893-D83ECC01F587"
-    Version="1.0.6.0" />
+    Version="1.0.7.0" />
 
   <mp:PhoneIdentity PhoneProductId="84f5926b-9437-4cdb-b189-27cf058281dd" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
