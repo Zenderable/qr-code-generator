@@ -40,7 +40,6 @@ namespace QRCodeGenerator
         int size = 500;
         string selected = "png", color = "000000", url = "http://api.qrserver.com/v1/create-qr-code/?data=Example&size=500x500&color=000000&format=png";
 
-
         public MainPage()
         {
             this.InitializeComponent();
@@ -60,7 +59,6 @@ namespace QRCodeGenerator
         {
              selected = ((ComboBoxItem)lbFormat.SelectedItem).Content.ToString();
         }
-
         private void btnSetSize_Click(object sender, RoutedEventArgs e)
         {
             if (tbSetSize.Text != "") 
@@ -75,7 +73,6 @@ namespace QRCodeGenerator
                 size = 1000;
                 tbSetSize.Text = size.ToString();
             }
-                
         }
 
         private void cpColorPicked_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
@@ -109,7 +106,6 @@ namespace QRCodeGenerator
             Windows.Web.Http.HttpResponseMessage result = await client.GetAsync(new Uri(url));
 
             var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"{title}.{selected}", CreationCollisionOption.GenerateUniqueName);
-            Console.WriteLine(file);
             using (var filestream = await file.OpenAsync(FileAccessMode.ReadWrite))
             {
                 await result.Content.WriteToStreamAsync(filestream);
@@ -118,8 +114,6 @@ namespace QRCodeGenerator
             }
 
             AddData(title, url);
-      
-
         }
         public static void AddData(string Title, string Url)
         {
@@ -131,7 +125,6 @@ namespace QRCodeGenerator
 
                 SqliteCommand insertCommand = new SqliteCommand();
                 insertCommand.Connection = db;
-
                 
                 insertCommand.CommandText = "INSERT INTO QRCodes VALUES (NULL, @Entry1, @Entry2);";
                 insertCommand.Parameters.AddWithValue("@Entry1",Title);
@@ -141,7 +134,6 @@ namespace QRCodeGenerator
 
                 db.Close();
             }
-
         }
     }
 }

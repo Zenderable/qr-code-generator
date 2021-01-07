@@ -18,6 +18,8 @@ using Microsoft.Data.Sqlite;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
+using Windows.System;
+using System.Text.RegularExpressions;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -39,26 +41,25 @@ namespace QRCodeGenerator
         public int Index { get; set; }
     }
 
+    public class Code
+    {
+        public string Title { get; set; }
+        public string Url { get; set; }
+    }
+
     public class ExampleViewModel
     {
         private ObservableCollection<ExampleItem> exampleItems = new ObservableCollection<ExampleItem>();
         public ObservableCollection<ExampleItem> ExampleItems {get { return this.exampleItems; } }
 
+        List<Code> entries = new List<Code>();
 
-        public class Code
-        {
-            public string Title { get; set; }
-            public string Url { get; set; }
-           
-            
-        }
         public ExampleViewModel()
         {
             this.Create_QR_Gallery();
         }
         List<Code> getData()
         {
-            var entries = new List<Code>();
             string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "sqliteData.db");
             using (SqliteConnection db =
                 new SqliteConnection($"Filename={dbpath}"))
@@ -89,7 +90,6 @@ namespace QRCodeGenerator
         public void Create_QR_Gallery()
         {
             List<Code> entries = getData();
-            //Debug.WriteLine(entries[4].Title);
             for (int i = 0; i < entries.Count; i++)
             {
                 this.exampleItems.Add(new ExampleItem()
@@ -109,7 +109,6 @@ namespace QRCodeGenerator
         {
             this.InitializeComponent();
             this.ViewModel = new ExampleViewModel();
-            
         }
 
         public ExampleViewModel ViewModel { get; set; }
@@ -152,19 +151,30 @@ namespace QRCodeGenerator
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
+        }
+
+        private async void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
+        {
             
-        }
+            string url = (String)((StackPanel)sender).Tag;
+            string title = (String)((StackPanel)sender).Name;
+            string regex = @"format=(.*)";
+            Regex r = new Regex(regex, RegexOptions.IgnoreCase);
+            Match m = r.Match(url);
+            Group g = m.Groups[1];
+            string selected = g.ToString();
 
-        private void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            var i = this.Name;
-            Debug.WriteLine(i); 
-        }
-
-        private void StackPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            var i = this.Name;
-            Debug.WriteLine(i);
+            var myFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+            myFilter.AllowUI = false;
+            Windows.Web.Http.HttpClient client = new Windows.Web.Http.HttpClient(myFilter);
+            Windows.Web.Http.HttpResponseMessage result = await client.GetAsync(new Uri(url));
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"{title}.{selected}", CreationCollisionOption.GenerateUniqueName);
+            using (var filestream = await file.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                await result.Content.WriteToStreamAsync(filestream);
+                await filestream.FlushAsync();
+                await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+            }
         }
     }
 }
