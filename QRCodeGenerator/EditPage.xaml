@@ -13,23 +13,21 @@
             <RowDefinition Height="700*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <GridView Name="gridGallery" Grid.Row="0" HorizontalAlignment="Center">
-            <StackPanel>
-                <Image Name="imgGenerated" Height="250" Width="250" Margin="20,40,20,20"></Image>
-                <TextBlock Name="tbTitle" Text="Title" FontSize="26" TextAlignment="Center"  />
-            </StackPanel>
-        </GridView>
-        <GridView ItemsSource="{x:Bind ViewModel.ExampleItems}" ContainerContentChanging="GridView_ContainerContentChanging">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="qrCodeGenerator:ExampleItem">
-                    <StackPanel Height="100" Width="100" Background="OrangeRed">
-                        <TextBlock Text="{x:Bind Title}"/>
-                        <Image Source="{x:Bind Url}" x:Phase="1"/>
-                    </StackPanel>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
-        <CommandBar Grid.Row="1" IsOpen="True">
+        
+        <ScrollViewer VerticalScrollBarVisibility="Visible" >
+            <GridView Grid.Row="0" ItemsSource="{x:Bind ViewModel.ExampleItems}" ContainerContentChanging="GridView_ContainerContentChanging">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="qrCodeGenerator:ExampleItem">
+                        <StackPanel Margin="20,20,20,20" Tapped="StackPanel_Tapped" Name="{x:Bind Index}" PointerPressed="StackPanel_PointerPressed">
+                            <TextBlock Text="{x:Bind Title}" Margin="0,0,0,5" FontWeight="Bold"/>
+                            <Image Source="{x:Bind Url}" x:Phase="1" Height="250" Width="250"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </ScrollViewer>
+        
+        <CommandBar Grid.Row="1">
             <AppBarButton Label="Back" Icon="Back" Click="Back_Click"></AppBarButton>
         </CommandBar>
     </Grid>

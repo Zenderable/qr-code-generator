@@ -38,8 +38,9 @@ namespace QRCodeGenerator
     public sealed partial class MainPage : Page
     {
         int size = 500;
-        string selected = "png", color = "000000", url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Example";
-        
+        string selected = "png", color = "000000", url = "http://api.qrserver.com/v1/create-qr-code/?data=Example&size=500x500&color=000000&format=png";
+
+
         public MainPage()
         {
             this.InitializeComponent();

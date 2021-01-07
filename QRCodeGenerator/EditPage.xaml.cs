@@ -36,6 +36,7 @@ namespace QRCodeGenerator
     {
         public string Title { get; set; }
         public string Url { get; set; }
+        public int Index { get; set; }
     }
 
     public class ExampleViewModel
@@ -43,12 +44,18 @@ namespace QRCodeGenerator
         private ObservableCollection<ExampleItem> exampleItems = new ObservableCollection<ExampleItem>();
         public ObservableCollection<ExampleItem> ExampleItems {get { return this.exampleItems; } }
 
+
         public class Code
         {
             public string Title { get; set; }
             public string Url { get; set; }
+           
+            
         }
-
+        public ExampleViewModel()
+        {
+            this.Create_QR_Gallery();
+        }
         List<Code> getData()
         {
             var entries = new List<Code>();
@@ -82,24 +89,27 @@ namespace QRCodeGenerator
         public void Create_QR_Gallery()
         {
             List<Code> entries = getData();
-            Debug.WriteLine(entries[4].Title);
-            for (int i = 1; i < 150000; i++)
+            //Debug.WriteLine(entries[4].Title);
+            for (int i = 0; i < entries.Count; i++)
             {
-               
                 this.exampleItems.Add(new ExampleItem()
                 {
                     Title = entries[i].Title,
                     Url = entries[i].Url,
+                    Index = i
+
                 });
             }
         }
     }
     public sealed partial class EditPage : Page
     {
+   
         public EditPage()
         {
             this.InitializeComponent();
             this.ViewModel = new ExampleViewModel();
+            
         }
 
         public ExampleViewModel ViewModel { get; set; }
@@ -142,6 +152,19 @@ namespace QRCodeGenerator
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
+            
+        }
+
+        private void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var i = this.Name;
+            Debug.WriteLine(i); 
+        }
+
+        private void StackPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var i = this.Name;
+            Debug.WriteLine(i);
         }
     }
 }
