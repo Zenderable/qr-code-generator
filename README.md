@@ -51,3 +51,4 @@
 
 - **[MIT license](https://github.com/Zenderable/qr-code-generator/blob/default/LICENSE)**
 - Copyright 2021 © <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Karol Stumski, Michał Siuda, Adam Pszczoła</a>.
+- <a href="http://goqr.me/api/" target="_blank">API</a>
