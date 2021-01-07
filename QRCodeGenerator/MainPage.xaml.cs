@@ -20,6 +20,13 @@ using Windows.Storage;
 using Windows.System;
 using Windows.Networking.BackgroundTransfer;
 using System.Net.Http;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using System.Xml;
+using System.Xml.Linq;
+using System.Data.Common;
+using DataAccessLibrary;
+using Microsoft.Data.Sqlite;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -31,14 +38,16 @@ namespace QRCodeGenerator
     public sealed partial class MainPage : Page
     {
         int size = 500;
-        string selected = "png", color = "000000", url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=Example";
+        string selected = "png", color = "000000", url = "http://api.qrserver.com/v1/create-qr-code/?data=Example&size=500x500&color=000000&format=png";
+
         public MainPage()
         {
             this.InitializeComponent();
         }
-
+      
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+            Frame.Navigate(typeof(EditPage));
         }
 
         private void About_Click(object sender, RoutedEventArgs e)
@@ -50,7 +59,6 @@ namespace QRCodeGenerator
         {
              selected = ((ComboBoxItem)lbFormat.SelectedItem).Content.ToString();
         }
-
         private void btnSetSize_Click(object sender, RoutedEventArgs e)
         {
             if (tbSetSize.Text != "") 
@@ -65,12 +73,11 @@ namespace QRCodeGenerator
                 size = 1000;
                 tbSetSize.Text = size.ToString();
             }
-                
         }
 
         private void cpColorPicked_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
-            color = cpColorPicked.Color.ToString().Remove(0, 3);  
+            color = cpColorPicked.Color.ToString().Remove(0, 3);
         }
 
         private void tbSetSize_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
@@ -99,12 +106,33 @@ namespace QRCodeGenerator
             Windows.Web.Http.HttpResponseMessage result = await client.GetAsync(new Uri(url));
 
             var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"{title}.{selected}", CreationCollisionOption.GenerateUniqueName);
-            Console.WriteLine(file);
             using (var filestream = await file.OpenAsync(FileAccessMode.ReadWrite))
             {
                 await result.Content.WriteToStreamAsync(filestream);
                 await filestream.FlushAsync();
                 await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+            }
+
+            AddData(title, url);
+        }
+        public static void AddData(string Title, string Url)
+        {
+            string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "sqliteData.db");
+            using (SqliteConnection db =
+            new SqliteConnection($"Filename={dbpath}"))
+            {
+                db.Open();
+
+                SqliteCommand insertCommand = new SqliteCommand();
+                insertCommand.Connection = db;
+                
+                insertCommand.CommandText = "INSERT INTO QRCodes VALUES (NULL, @Entry1, @Entry2);";
+                insertCommand.Parameters.AddWithValue("@Entry1",Title);
+                insertCommand.Parameters.AddWithValue("@Entry2", Url);
+
+                insertCommand.ExecuteReader();
+
+                db.Close();
             }
         }
     }
