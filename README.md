@@ -1,10 +1,10 @@
----
 # ***QR Generator Premium***
 > `A simple application for generating QR codes (from API).`
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat)](https://github.com/Zenderable/qr-code-generator/blob/default/LICENSE)
 
 <img src="https://i.imgur.com/gvNnpW2.png" title="QRGenerator" alt="QR Generator Premium" width="1000">
+
 
 ---
 
@@ -14,7 +14,7 @@
 
 ### Step 1
 
-<a href='//www.microsoft.com/store/apps/9PB6XKV778G6?cid=storebadge&ocid=badge'><img src='https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png' alt='English badge' style='width: 284px; height: 104px;'/></a>
+[![Foo](https://developer.microsoft.com/store/badges/images/English_get-it-from-MS.png)](http://www.microsoft.com/store/apps/9PB6XKV778G6?cid=storebadge&ocid=badge/)
 
 ### Step 2
 
@@ -27,7 +27,7 @@
 > For example you can generate a QR code with pink color. Maybe you will try? 🤪
 
 
-<img src="https://i.imgur.com/yuIbg50.png" title="QRGenerator" alt="QR Generator Premium" width="1000"  >\
+<img src="https://i.imgur.com/yuIbg50.png" title="QRGenerator" alt="QR Generator Premium" width="1000">\
 <img src="https://i.imgur.com/lrKyPDT.png" title="QRGenerator" alt="QR Generator Premium" width="1000">
 
 ---
