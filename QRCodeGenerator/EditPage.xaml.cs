@@ -1,69 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using DataAccessLibrary;
 using Windows.Storage;
 using Microsoft.Data.Sqlite;
-using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Collections.ObjectModel;
 using Windows.System;
 using System.Text.RegularExpressions;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace QRCodeGenerator
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Gallery page
     /// </summary>
     /// 
-    public class imageClaz
+    public class ImageClass
     {
+        // get and set bitmap image
         public BitmapImage ImgQR { get; set; }
     }
 
-    public class ExampleItem
+    public class QRDataContent
     {
+        // get title and url, bind in xaml view
         public string Title { get; set; }
         public string Url { get; set; }
-        public int Index { get; set; }
     }
 
     public class Code
     {
+        // get and set title (for database usage)
         public string Title { get; set; }
         public string Url { get; set; }
     }
 
-    public class ExampleViewModel
+    public class QRViewModel
     {
-        private ObservableCollection<ExampleItem> exampleItems = new ObservableCollection<ExampleItem>();
-        public ObservableCollection<ExampleItem> ExampleItems {get { return this.exampleItems; } }
+        // this is for xaml usage
+        private ObservableCollection<QRDataContent> qrDataContents = new ObservableCollection<QRDataContent>();
+        public ObservableCollection<QRDataContent> QRDataContents {get { return this.qrDataContents; }}
 
+        // create list of Code entries
         List<Code> entries = new List<Code>();
 
-        public ExampleViewModel()
+        public QRViewModel()
         {
             this.Create_QR_Gallery();
         }
-        List<Code> getData()
+        List<Code> GetData()
         {
+            // get data from sqlite database
             string dbpath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "sqliteData.db");
             using (SqliteConnection db =
                 new SqliteConnection($"Filename={dbpath}"))
             {
+                //open database
                 db.Open();
 
                 SqliteCommand selectCommand = new SqliteCommand
@@ -73,53 +67,48 @@ namespace QRCodeGenerator
 
                 while (query.Read())
                 {
-
                     entries.Add(new Code
                     {
+                        // add entries from database to list
                         Title = query.GetString(0),
                         Url = query.GetString(1)
                     });
                 }
-
+                // close database
                 db.Close();
             }
 
             return entries;
         }
-
         public void Create_QR_Gallery()
         {
-            List<Code> entries = getData();
+            // create QR gallery from Code list
+            List<Code> entries = GetData();
             for (int i = 0; i < entries.Count; i++)
             {
-                this.exampleItems.Add(new ExampleItem()
+                // add content to xaml view
+                this.qrDataContents.Add(new QRDataContent()
                 {
                     Title = entries[i].Title,
                     Url = entries[i].Url,
-                    Index = i
-
                 });
             }
         }
     }
     public sealed partial class EditPage : Page
     {
-   
         public EditPage()
         {
             this.InitializeComponent();
-            this.ViewModel = new ExampleViewModel();
+            this.ViewModel = new QRViewModel();
         }
-
-        public ExampleViewModel ViewModel { get; set; }
-
+        public QRViewModel ViewModel { get; set; }
         private void GridView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             if (args.Phase != 0)
             {
                 throw new System.Exception("We should be in phase 0, but we are not.");
             }
-
             // It's phase 0, so this item's title will already be bound and displayed.
 
             args.RegisterUpdateCallback(this.ShowUrl);
@@ -134,45 +123,53 @@ namespace QRCodeGenerator
                 throw new System.Exception("We should be in phase 1, but we are not.");
             }
 
-            // It's phase 1, so show this item's subtitle.
+            // It's phase 1, so show qr codes.
             var templateRoot = args.ItemContainer.ContentTemplateRoot as StackPanel;
             var image = templateRoot.Children[1] as Image;
-            string strImgPath = (args.Item as ExampleItem).Url;
+            string strImgPath = (args.Item as QRDataContent).Url;
             
-            imageClaz obj = new imageClaz
+            ImageClass obj = new ImageClass
             {
                 ImgQR = new BitmapImage(new Uri(strImgPath, UriKind.Absolute))
             };
             
+            // show bitmap image
             image.Source = obj.ImgQR;
-
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            // navigate to main page
             Frame.Navigate(typeof(MainPage));
         }
 
         private async void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            
+            // handle click on qr code
             string url = (String)((StackPanel)sender).Tag;
             string title = (String)((StackPanel)sender).Name;
+
+            // get format like .png
             string regex = @"format=(.*)";
             Regex r = new Regex(regex, RegexOptions.IgnoreCase);
             Match m = r.Match(url);
             Group g = m.Groups[1];
             string selected = g.ToString();
 
+            // use http to download image and transfer it to file on local machine
             var myFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
             myFilter.AllowUI = false;
+
             Windows.Web.Http.HttpClient client = new Windows.Web.Http.HttpClient(myFilter);
+            // use generated url
             Windows.Web.Http.HttpResponseMessage result = await client.GetAsync(new Uri(url));
+            // save file with title and selected format
             var file = await ApplicationData.Current.LocalFolder.CreateFileAsync($"{title}.{selected}", CreationCollisionOption.GenerateUniqueName);
             using (var filestream = await file.OpenAsync(FileAccessMode.ReadWrite))
             {
                 await result.Content.WriteToStreamAsync(filestream);
                 await filestream.FlushAsync();
+                // open local folder where it's saved
                 await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
             }
         }
