@@ -43,7 +43,7 @@
 
 - Karol Stumski <a href="https://github.com/Zenderable" target="_blank">`@Zenderable`</a>
 - Adam Pszczoła <a href="https://github.com/adampszczola" target="_blank">`@adampszczola`</a>
-- Michał Siuda <a href="https://github.com/KoksMalina" target="_blank">`@MichaUSiuda`</a>
+- Michał Siuda <a href="https://github.com/MichaUSiuda" target="_blank">`@MichaUSiuda`</a>
 ---
 ## License
 
